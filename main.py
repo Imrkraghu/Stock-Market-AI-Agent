@@ -5,7 +5,7 @@ from yahooquery import search
 from langchain_anthropic import ChatAnthropic
 from langchain_community.tools import DuckDuckGoSearchRun
 
-# Set up Anthropic API key (ensure you replace with your actual key)
+# Set up Anthropic API key (replace with your actual key)
 os.environ["ANTHROPIC_API_KEY"] = "your_real_api_key"
 
 # Initialize Claude AI model
@@ -52,14 +52,14 @@ def fetch_stock_info(stock_name_or_ticker: str):
     except Exception as e:
         return {"Error": f"Failed to fetch stock data: {str(e)}"}
 
-# Define Gradio interface with a single section displaying stock price & details
+# Define Gradio interface (new version: no allow_flagging)
 iface = gr.Interface(
     fn=fetch_stock_info,
-    inputs="text",
-    outputs="json",
+    inputs=gr.Textbox(label="Enter Stock Name or Ticker"),
+    outputs=gr.JSON(label="Stock Data"),
     title="📊 Stock Price & Details Lookup",
-    description="Enter a stock name or ticker to get the latest price and key financial metrics.",
-    allow_flagging="never",
+    description="Enter a stock name or ticker to get the latest price and key financial metrics."
 )
 
-iface.launch(share=True)  # Enables a public URL
+# Launch with public sharing enabled
+iface.launch(share=True)
